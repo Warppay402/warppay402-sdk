@@ -1,0 +1,61 @@
+{
+  "name": "@warppay402/sdk",
+  "version": "1.1.4",
+  "license": "MIT",
+  "description": "Official WarpPay402 TypeScript SDK: Enabling seamless pay-per-use AI tools across Base Mainnet, Solana, and Arbitrum One.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Warppay402/warppay402-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Warppay402/warppay402-sdk/issues"
+  },
+  "homepage": "https://github.com/Warppay402/warppay402-sdk#readme",
+  "keywords": [
+    "x402",
+    "base",
+    "solana",
+    "arbitrum",
+    "ai-agents",
+    "mcp",
+    "monetization",
+    "langchain"
+  ],
+  "dependencies": {
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.98.4",
+    "@warppay402/server": "^1.0.0",
+    "bs58": "^6.0.0",
+    "viem": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^5.0.0"
+  },
+  "openclaw": {
+    "compat": {
+      "pluginApi": "1.0.0"
+    },
+    "build": {
+      "openclawVersion": "1.0.0"
+    },
+    "extensions": [
+      "dist/index.js"
+    ],
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "privateKey": {
+          "type": "string",
+          "description": "Base/Arbitrum wallet private key for paying x402 micropayments"
+        }
+      }
+    }
+  }
+}

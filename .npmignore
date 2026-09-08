@@ -1,0 +1,8 @@
+src/
+.env
+.env.local
+.env.*
+find-key.ts
+test-solana-pay.ts
+tsconfig.json
+*.tgz
