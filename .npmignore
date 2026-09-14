@@ -6,3 +6,4 @@ find-key.ts
 test-solana-pay.ts
 tsconfig.json
 *.tgz
+src/test-bazaar-indexing.ts

@@ -7,10 +7,10 @@ Official TypeScript SDK for **WarpPay402**—pay-per-use AI tools monetized via 
 ```bash
 npm install @warppay402/sdk
 ```
-## 🚀 Quickstart
-```typescript
-import { WarpPayClient } from "@warppay402/sdk";
 
+## 🚀 Quickstart
+
+```typescript
 import { WarpPayClient } from "@warppay402/sdk";
 
 // Initialize with Base EVM, Solana L1, or both
@@ -45,24 +45,33 @@ async function main() {
   console.log("ETH Balance:", analytics.ethBalance);
 
   // 6. Extract PDF Text Preview ($0.05 USDC)
-  const pdf = await client.extractPdf("https://example.com/document.pdf");  
+  const pdf = await client.extractPdf("https://example.com/document.pdf");
   console.log("Preview:", pdf.textPreview);
 }
 
 main();
 ```
+
 ## 🛠️ Available Methods & Pricing
 
-* **`getPublicDataFeed(filename)`** -- `$0.0001 USDC` -- Retrieves signed attestation JSON payloads.
-* **`getDataFeed(feedId)`** -- `$0.001 USDC` -- Fetches pre-scraped market and protocol intelligence feeds.
-* **`scrapeWeb(url)`** -- `$0.001 USDC` -- Extracts clean Markdown from web pages.
-* **`getBaseAnalytics(address)`** -- `$0.002 USDC` -- Fetches ETH balance and nonce stats.
-* **`browserScrape(url)`** -- `$0.005 USDC` -- Unblockable JS browser scraping via proxy workers.
-* **`extractPdf(pdfUrl)`** -- `$0.005 USDC` -- Parses text preview from public PDF URLs.
-* **`renderScreenshot(url)`** -- `$0.01 USDC` -- Renders target URL and returns full-page screenshot data.
-* **`extractJson(url, schema?)`** -- `$0.01 USDC` -- Parses web pages into structured JSON data.
-* **`verifySmartContract(address)`** -- `$0.02 USDC` -- Source code analysis, ABI fetching, and proxy validation.
+- **`getPublicDataFeed(filename)`** — `$0.0001 USDC` — Retrieves signed attestation JSON payloads.
+- **`getDataFeed(feedId)`** — `$0.001 USDC` — Fetches pre-scraped market and protocol intelligence feeds.
+- **`scrapeWeb(url)`** — `$0.001 USDC` — Extracts clean Markdown from web pages.
+- **`getBaseAnalytics(address)`** — `$0.002 USDC` — Fetches ETH balance and nonce stats.
+- **`getAerodromeYields()`** — `$0.003 USDC` — Top live Aerodrome pool yields and APYs on Base.
+- **`browserScrape(url)`** — `$0.005 USDC` — Unblockable JS browser scraping via proxy workers.
+- **`extractPdf(pdfUrl)`** — `$0.005 USDC` — Parses text preview from public PDF URLs.
+- **`renderScreenshot(url)`** — `$0.01 USDC` — Renders target URL and returns full-page screenshot data.
+- **`extractJson(url, schema?)`** — `$0.01 USDC` — Parses web pages into structured JSON data.
+- **`executeAerodromeSwap(params)`** — `$0.01 USDC` — Executes token swaps via Aerodrome Router on Base.
+- **`manageAerodromeClamm(params)`** — `$0.01 USDC` — Concentrated liquidity LP management on Aerodrome Slipstream.
+- **`manageAerodromeVeaero(params)`** — `$0.01 USDC` — $AERO locking, gauge voting, and bribe reward harvesting.
+- **`verifySmartContract(address)`** — `$0.02 USDC` — Source code analysis, ABI fetching, and proxy validation.
+- **`deployBaseContract(contractType)`** — `$5.00 USDC` — Programmatically deploys custom smart contracts to Base Mainnet.
+- **`deploySolanaContract(type, params)`** — `$5.00 USDC` — Initializes SPL Escrows, cNFTs, or Raydium Vaults on Solana.
+
 ## 🛠️ LangChain Integration
+
 ```typescript
 import { WarpPayClient, createWarpPayLangChainTools } from "@warppay402/sdk";
 
@@ -73,12 +82,10 @@ const client = new WarpPayClient({
 // Pass directly into your LangChain or AutoGen agent setup
 const tools = createWarpPayLangChainTools(client);
 ```
+
 ## 🌐 API Gateway & Specs
 
-MCP Gateway Endpoint: https://api.warppay402.com/mcp
-
-MCP Manifest: https://api.warppay402.com/.well-known/mcp.json
-
-REST Gateway Base: https://api.warppay402.com
-
-OpenAPI Spec: https://api.warppay402.com/openapi.json
+- MCP Gateway Endpoint: <https://api.warppay402.com/mcp>
+- MCP Manifest: <https://api.warppay402.com/.well-known/mcp.json>
+- REST Gateway Base: <https://api.warppay402.com>
+- OpenAPI Spec: <https://api.warppay402.com/openapi.json>
