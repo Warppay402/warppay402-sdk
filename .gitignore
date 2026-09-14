@@ -1,8 +1,28 @@
+# Dependencies & Lockfiles
 node_modules/
+
+# Build Outputs & Caches
 dist/
+coverage/
+*.tsbuildinfo
+
+# Package Tarballs
 *.tgz
+
+# Environment Variables & Private Keys
 .env
-.env.local
 .env.*
+!.env.example
+
+# Local Test Scripts
 find-key.ts
 test-solana-pay.ts
+test-*.ts
+*.test.ts
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

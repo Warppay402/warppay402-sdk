@@ -2,6 +2,7 @@ src/
 .env
 .env.local
 .env.*
+!.env.example
 find-key.ts
 test-solana-pay.ts
 tsconfig.json
