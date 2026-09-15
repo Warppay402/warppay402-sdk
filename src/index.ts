@@ -7,7 +7,10 @@ import {
   createTransferInstruction, 
   createAssociatedTokenAccountIdempotentInstruction 
 } from "@solana/spl-token";
-import bs58 from "bs58";
+import bs58Module from "bs58";
+
+// Interop helper: handles both ESM default and CJS default property exports
+const bs58 = (bs58Module as any).default || bs58Module;
 
 export interface WarpPayConfig {
   /** Base Mainnet private key of the agent's wallet funding micro-payments */

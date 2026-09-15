@@ -1,13 +1,22 @@
-
 {
   "name": "@warppay402/sdk",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "license": "MIT",
   "description": "Official WarpPay402 TypeScript SDK: Enabling seamless pay-per-use AI tools across Base Mainnet, Solana, and Arbitrum One.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsc"
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean --external viem,@solana/web3.js,@solana/spl-token",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,6 +45,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.0.0"
   },
   "openclaw": {
