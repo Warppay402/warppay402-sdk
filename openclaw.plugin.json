@@ -1,6 +1,6 @@
 {
   "id": "warppay402-sdk",
   "name": "warppay402-sdk",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Official WarpPay402 TypeScript SDK: Enabling seamless pay-per-use AI tools across Base Mainnet, Solana, and Arbitrum One."
 }
