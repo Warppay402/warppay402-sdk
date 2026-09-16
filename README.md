@@ -1,6 +1,6 @@
 # @warppay402/sdk
 
-Official TypeScript SDK for **WarpPay402**—pay-per-use AI tools monetized via x402 USDC micropayments on Base Mainnet.
+Official TypeScript SDK for **WarpPay402**—pay-per-use AI tools monetized via x402 USDC micropayments on Base Mainnet, Solana SPl (USDC), Arbituim One, and Arc mainnet.
 
 ## 📦 Installation
 

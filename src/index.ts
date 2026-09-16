@@ -13,7 +13,7 @@ import bs58Module from "bs58";
 const bs58 = (bs58Module as any).default || bs58Module;
 
 export interface WarpPayConfig {
-  /** Base Mainnet private key of the agent's wallet funding micro-payments */
+  /** Base Mainnet or Arc Mainnet private key of the agent's wallet funding micro-payments */
   privateKey?: `0x${string}`;
   /** Solana Mainnet base58 private key funding micro-payments */
   solanaPrivateKey?: string;
@@ -50,7 +50,7 @@ export class WarpPayClient {
     }
 
     if (!this.account && !this.solanaKeypair) {
-      throw new Error("WarpPayClient requires either a Base privateKey or a solanaPrivateKey.");
+      throw new Error("WarpPayClient requires either an EVM privateKey or a solanaPrivateKey.");
     }
   }
 
@@ -141,10 +141,14 @@ export class WarpPayClient {
 
         console.log(`🔍 [SDK DEBUG] Signer Wallet: ${this.account.address} -> PayTo: ${payTo} | Amount: ${value.toString()}`);
 
+        // Detect chain ID from challenge network (defaults to Base 8453 or Arc 5042)
+        const isArc = evmReq.network === "eip155:5042" || evmReq.chainId === 5042;
+        const targetChainId = isArc ? 5042 : Number(evmReq.chainId || 8453);
+
         const domain = {
           name: evmReq.extra?.name || "USD Coin",
           version: evmReq.extra?.version || "2",
-          chainId: 8453,
+          chainId: targetChainId,
           verifyingContract: assetContract,
         };
 
@@ -181,7 +185,7 @@ export class WarpPayClient {
         paymentPayload = {
           x402Version: 2,
           scheme: evmReq.scheme || "exact",
-          network: evmReq.network || "eip155:8453",
+          network: evmReq.network || (isArc ? "eip155:5042" : "eip155:8453"),
           authorization: {
             from: this.account.address,
             to: payTo,
