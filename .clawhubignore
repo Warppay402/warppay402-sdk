@@ -5,3 +5,9 @@ dist/*.tsbuildinfo
 .env.*
 .git/
 .tgz
+
+.env
+.env.*
+*.pem
+*.key
+*.tgz

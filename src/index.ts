@@ -221,6 +221,9 @@ export class WarpPayClient {
         retryOptions.body = JSON.stringify(payload);
       }
 
+      // Insert a brief delay before resubmitting the paid request to avoid velocity spikes
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       console.log(`🔍 [SDK DEBUG] Resubmitting paid ${method} request to: ${url}`);
       response = await fetch(url, retryOptions);
       console.log(`🔍 [SDK DEBUG] Paid Retry Response Status: ${response.status} ${response.statusText}`);

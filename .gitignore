@@ -26,3 +26,9 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
+
+.env
+.env.*
+*.pem
+*.key
+*.tgz

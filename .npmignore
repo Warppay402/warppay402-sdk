@@ -8,3 +8,8 @@ test-solana-pay.ts
 tsconfig.json
 *.tgz
 src/test-bazaar-indexing.ts
+.env
+.env.*
+*.pem
+*.key
+*.tgz
