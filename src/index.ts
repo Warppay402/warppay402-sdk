@@ -248,37 +248,33 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/arc-dex-oracle", { pair });
   }
 
-  /** 9. Public x402 Settlement Telemetry Feed ($0.0000 USDC / Free) */
-  public async getTelemetrySettlements(): Promise<any> {
-    return fetch(`${this.baseUrl}/api/v1/telemetry/settlements`).then((res) => res.json());
-  }
 
-  /** 10. PDF Document Extractor ($0.005 USDC) */
+  /** 9. PDF Document Extractor ($0.005 USDC) */
   public async extractPdf(pdfUrl: string): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/pdf-extractor", { pdfUrl });
   }
 
-  /** 11. Render Full-Page Screenshot ($0.01 USDC) */
+  /** 10. Render Full-Page Screenshot ($0.01 USDC) */
   public async renderScreenshot(url: string): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/render-screenshot", { url });
   }
 
-  /** 12. Structured JSON Extractor ($0.01 USDC) */
+  /** 11. Structured JSON Extractor ($0.01 USDC) */
   public async extractJson(url: string, schema?: object): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/extract-json", { url, schema });
   }
 
-  /** 13. Base Smart Contract Verifier ($0.02 USDC) */
+  /** 12. Base Smart Contract Verifier ($0.02 USDC) */
   public async verifySmartContract(address: string): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/smart-contract-verifier", { address });
   }
 
-  /** 14. Aerodrome DEX Yield Optimizer ($0.003 USDC) */
+  /** 13. Aerodrome DEX Yield Optimizer ($0.003 USDC) */
   public async getAerodromeYields(): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/aerodrome-yields", undefined, "GET");
   }
 
-  /** 15. Aerodrome Swap Engine ($0.01 USDC) */
+  /** 14. Aerodrome Swap Engine ($0.01 USDC) */
   public async executeAerodromeSwap(params: {
     tokenIn: string;
     tokenOut: string;
@@ -289,7 +285,7 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/aerodrome-swap", params);
   }
 
-  /** 16. Aerodrome Slipstream CLAMM LP Route ($0.01 USDC) */
+  /** 15. Aerodrome Slipstream CLAMM LP Route ($0.01 USDC) */
   public async manageAerodromeClamm(params: {
     action: "mint" | "increaseLiquidity" | "decreaseLiquidity" | "collect";
     token0?: string;
@@ -303,7 +299,7 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/aerodrome-clamm", params);
   }
 
-  /** 17. Aerodrome veAERO Lock & Vote Route ($0.01 USDC) */
+  /** 16. Aerodrome veAERO Lock & Vote Route ($0.01 USDC) */
   public async manageAerodromeVeaero(params: {
     action: "createLock" | "increaseAmount" | "increaseUnlockTime" | "vote" | "claimBribes";
     amount?: string;
@@ -314,12 +310,12 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/aerodrome-veaero", params);
   }
 
-  /** 18. Base Smart Contract Deployment Factory ($5.00 USDC) */
+  /** 17. Base Smart Contract Deployment Factory ($5.00 USDC) */
   public async deployBaseContract(contractType: "escrow" | "bounty" | "subscription" | "pendle"): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/deploy-contract", { contractType });
   }
 
-  /** 19. Solana Smart Contract Factory ($5.00 USDC) */
+  /** 18. Solana Smart Contract Factory ($5.00 USDC) */
   public async deploySolanaContract(
     contractType: "spl_escrow" | "cnft_badge" | "raydium_vault",
     params: Record<string, any>
@@ -327,12 +323,12 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/deploy-solana-contract", { contractType, params });
   }
 
-  /** 20. Arc Smart Contract Factory ($5.00 USDC) */
+  /** 19. Arc Smart Contract Factory ($5.00 USDC) */
   public async deployArcContract(contractType: "escrow" | "bounty" | "subscription"): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/deploy-arc-contract", { contractType });
   }
 
-  /** 21. Circle CCTP Cross-Chain Bridge Engine ($0.25 USDC) */
+  /** 20. Circle CCTP Cross-Chain Bridge Engine ($0.25 USDC) */
   public async bridgeArcCctp(params: {
     amountUsdc: string;
     destinationChain: "ethereum" | "avalanche" | "optimism" | "arbitrum" | "solana" | "base";
@@ -341,7 +337,7 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/arc-cctp-bridge", params);
   }
 
-  /** 22. Real Estate Financial & Cap Rate Calculator ($0.0005 USDC) */
+  /** 21. Real Estate Financial & Cap Rate Calculator ($0.0005 USDC) */
   public async calculateRealEstate(params: {
     purchasePrice: number;
     monthlyRent: number;
@@ -353,22 +349,22 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/real-estate-calculator", params);
   }
 
-  /** 23. USPS Address Normalizer & Geocoder ($0.001 USDC) */
+  /** 22. USPS Address Normalizer & Geocoder ($0.001 USDC) */
   public async normalizeAddress(address: string): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/address-normalizer", { address });
   }
 
-  /** 24. Drone & Delivery Weather Oracle ($0.001 USDC) */
+  /** 23. Drone & Delivery Weather Oracle ($0.001 USDC) */
   public async getWeatherOracle(latitude: number, longitude: number): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/weather-oracle", { latitude, longitude });
   }
 
-  /** 25. Currency & Forex Spot Rate Oracle ($0.0005 USDC) */
+  /** 24. Currency & Forex Spot Rate Oracle ($0.0005 USDC) */
   public async getForexOracle(baseCurrency = "USD"): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/forex-oracle", { baseCurrency });
   }
 
-  /** 26. USPS Shipping Rate Estimator ($0.001 USDC) */
+  /** 25. USPS Shipping Rate Estimator ($0.001 USDC) */
   public async estimateShippingRates(params: {
     weightLbs: number;
     originZip: string;
@@ -377,12 +373,12 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/shipping-rate-estimator", params);
   }
 
-  /** 27. GitHub Repository Health Inspector ($0.002 USDC) */
+  /** 26. GitHub Repository Health Inspector ($0.002 USDC) */
   public async analyzeGithubHealth(repository: string): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/github-health-analyzer", { repository });
   }
 
-  /** 28. Public Property Tax Assessor & Comps Estimator ($0.005 USDC) */
+  /** 27. Public Property Tax Assessor & Comps Estimator ($0.005 USDC) */
   public async estimatePropertyComps(params: {
     squareFeet: number;
     bedrooms: number;

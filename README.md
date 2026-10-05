@@ -68,7 +68,6 @@ main();
 - `deployArcContract(contractType)` — $5.00 USDC — Deploys an Escrow, Bounty, or Subscription contract to Arc Mainnet.
 - `calculateRealEstate({ purchasePrice, monthlyRent, ... })` — $0.0005 USDC — Real estate NOI, cap rate, and DSCR deal calculator.
 - `getForexOracle(baseCurrency?)` — $0.0005 USDC — Foreign exchange fiat spot rates (EUR, GBP, JPY, CAD, AUD).
-- `getTelemetrySettlements()` — Free — Public on-chain settlement proofs and telemetry.
 
 `manageAerodromeClamm` accepts an action of `mint`, `increaseLiquidity`,
 `decreaseLiquidity`, or `collect`. `manageAerodromeVeaero` accepts an action
