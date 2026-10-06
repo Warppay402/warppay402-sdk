@@ -119,11 +119,15 @@ export class WarpPayClient {
       } else if (evmReq && this.account) {
         const payTo = (evmReq.payToAddress || evmReq.payTo) as `0x${string}`;
         const assetContract = (evmReq.asset || evmReq.usdcAddress) as `0x${string}`;
-        const value = BigInt(evmReq.maxAmountRequired || evmReq.amount || "10000");
+        
+        // Ensure precise atomic unit parsing
+        const rawAmount = evmReq.amount || evmReq.maxAmountRequired || "1000";
+        const value = BigInt(rawAmount);
 
         const isArc = evmReq.network === "eip155:5042" || evmReq.chainId === 5042;
-        const targetChainId = isArc ? 5042 : Number(evmReq.chainId || 8453);
+        const targetChainId = isArc ? 5042 : Number(evmReq.chainId || (evmReq.network ? evmReq.network.split(":")[1] : 8453));
 
+        // Domain MUST strictly match the server's accepts[].extra fields
         const domain = {
           name: evmReq.extra?.name || "USD Coin",
           version: evmReq.extra?.version || "2",
@@ -143,6 +147,7 @@ export class WarpPayClient {
         };
 
         const now = Math.floor(Date.now() / 1000);
+        // Ensure a fresh, non-reusable 32-byte nonce for every transaction execution
         const nonce = `0x${crypto.randomBytes(32).toString("hex")}` as `0x${string}`;
 
         const message = {
@@ -247,7 +252,6 @@ export class WarpPayClient {
   public async getArcDexOracle(pair = "ETH/USDC"): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/arc-dex-oracle", { pair });
   }
-
 
   /** 9. PDF Document Extractor ($0.005 USDC) */
   public async extractPdf(pdfUrl: string): Promise<any> {
