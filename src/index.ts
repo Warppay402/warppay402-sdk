@@ -390,4 +390,25 @@ export class WarpPayClient {
   }): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/property-comps-estimator", params);
   }
+
+  /** 28. Universal Commerce Protocol (UCP) Catalog & Deals Oracle ($0.001 USDC) */
+  public async queryUcpDeals(params: {
+    query: string;
+    maxPriceUSD?: number;
+    inStockOnly?: boolean;
+  }): Promise<any> {
+    return this.executePaidRequest("/api/v1/ucp/search", {
+      inStockOnly: true,
+      ...params,
+    });
+  }
+
+  /** 29. Real-Time Utility & Infrastructure Outage Oracle ($0.002 USDC) */
+  public async getOutageOracle(params: {
+    zipCode: string;
+    state?: string;
+    serviceType?: "all" | "power" | "internet" | "cellular";
+  }): Promise<any> {
+    return this.executePaidRequest("/api/v1/tools/outage-oracle", params);
+  }
 }
