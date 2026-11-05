@@ -120,14 +120,12 @@ export class WarpPayClient {
         const payTo = (evmReq.payToAddress || evmReq.payTo) as `0x${string}`;
         const assetContract = (evmReq.asset || evmReq.usdcAddress) as `0x${string}`;
         
-        // Ensure precise atomic unit parsing
         const rawAmount = evmReq.amount || evmReq.maxAmountRequired || "1000";
         const value = BigInt(rawAmount);
 
         const isArc = evmReq.network === "eip155:5042" || evmReq.chainId === 5042;
         const targetChainId = isArc ? 5042 : Number(evmReq.chainId || (evmReq.network ? evmReq.network.split(":")[1] : 8453));
 
-        // Domain MUST strictly match the server's accepts[].extra fields
         const domain = {
           name: evmReq.extra?.name || "USD Coin",
           version: evmReq.extra?.version || "2",
@@ -147,7 +145,6 @@ export class WarpPayClient {
         };
 
         const now = Math.floor(Date.now() / 1000);
-        // Ensure a fresh, non-reusable 32-byte nonce for every transaction execution
         const nonce = `0x${crypto.randomBytes(32).toString("hex")}` as `0x${string}`;
 
         const message = {
@@ -211,7 +208,7 @@ export class WarpPayClient {
     return (await response.json()) as T;
   }
 
-  // --- 28 ALL-INCLUSIVE MONETIZED TOOL METHODS ---
+  // --- 31 ALL-INCLUSIVE MONETIZED TOOL METHODS ---
 
   /** 1. Public Attestation Data Feed ($0.0001 USDC) */
   public async getPublicDataFeed(filename: string): Promise<any> {
@@ -285,6 +282,7 @@ export class WarpPayClient {
     amountIn: string;
     decimalsIn: number;
     isStable: boolean;
+    slippagePct?: number;
   }): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/aerodrome-swap", params);
   }
@@ -294,10 +292,14 @@ export class WarpPayClient {
     action: "mint" | "increaseLiquidity" | "decreaseLiquidity" | "collect";
     token0?: string;
     token1?: string;
+    tickSpacing?: number;
     tickLower?: number;
     tickUpper?: number;
     amount0Desired?: string;
     amount1Desired?: string;
+    amount0Min?: string;
+    amount1Min?: string;
+    liquidity?: string;
     tokenId?: string;
   }): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/aerodrome-clamm", params);
@@ -310,26 +312,24 @@ export class WarpPayClient {
     lockDurationWeeks?: number;
     tokenId?: string;
     poolVoteAddresses?: string[];
+    weights?: Array<number | string>;
   }): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/aerodrome-veaero", params);
   }
 
-  /** 17. Base Smart Contract Deployment Factory ($5.00 USDC) */
-  public async deployBaseContract(contractType: "escrow" | "bounty" | "subscription" | "pendle"): Promise<any> {
-    return this.executePaidRequest("/api/v1/tools/deploy-contract", { contractType });
+  /** 17. Wallet Sanctions & Reputation Oracle ($0.01 USDC) */
+  public async getWalletReputation(address: string): Promise<any> {
+    return this.executePaidRequest("/api/v1/tools/wallet-reputation", { address });
   }
 
-  /** 18. Solana Smart Contract Factory ($5.00 USDC) */
-  public async deploySolanaContract(
-    contractType: "spl_escrow" | "cnft_badge" | "raydium_vault",
-    params: Record<string, any>
-  ): Promise<any> {
-    return this.executePaidRequest("/api/v1/tools/deploy-solana-contract", { contractType, params });
+  /** 18. Solana SPL Token Security & Risk Oracle ($0.005 USDC) */
+  public async getSolanaTokenRisk(mintAddress: string): Promise<any> {
+    return this.executePaidRequest("/api/v1/tools/solana-token-risk", { mintAddress });
   }
 
-  /** 19. Arc Smart Contract Factory ($5.00 USDC) */
-  public async deployArcContract(contractType: "escrow" | "bounty" | "subscription"): Promise<any> {
-    return this.executePaidRequest("/api/v1/tools/deploy-arc-contract", { contractType });
+  /** 19. Multi-Chain EIP-1559 Gas Station Telemetry ($0.001 USDC) */
+  public async getMultiChainGas(): Promise<any> {
+    return this.executePaidRequest("/api/v1/tools/multi-chain-gas", {});
   }
 
   /** 20. Circle CCTP Cross-Chain Bridge Engine ($0.25 USDC) */
@@ -391,7 +391,16 @@ export class WarpPayClient {
     return this.executePaidRequest("/api/v1/tools/property-comps-estimator", params);
   }
 
-  /** 28. Universal Commerce Protocol (UCP) Catalog & Deals Oracle ($0.001 USDC) */
+  /** 28. Real-Time Utility & Infrastructure Outage Oracle ($0.002 USDC) */
+  public async getOutageOracle(params: {
+    zipCode: string;
+    state?: string;
+    serviceType?: "all" | "power" | "internet" | "cellular";
+  }): Promise<any> {
+    return this.executePaidRequest("/api/v1/tools/outage-oracle", params);
+  }
+
+  /** 29. Universal Commerce Protocol (UCP) Catalog & Deals Oracle ($0.001 USDC) */
   public async queryUcpDeals(params: {
     query: string;
     maxPriceUSD?: number;
@@ -403,12 +412,20 @@ export class WarpPayClient {
     });
   }
 
-  /** 29. Real-Time Utility & Infrastructure Outage Oracle ($0.002 USDC) */
-  public async getOutageOracle(params: {
-    zipCode: string;
-    state?: string;
-    serviceType?: "all" | "power" | "internet" | "cellular";
+  /** 30. Aerodrome Spot Quote & Price Impact Simulator ($0.001 USDC) */
+  public async getAerodromeQuote(params: {
+    tokenIn: string;
+    tokenOut: string;
+    amountIn: string;
+    decimalsIn?: number;
+    decimalsOut?: number;
+    isStable?: boolean;
   }): Promise<any> {
-    return this.executePaidRequest("/api/v1/tools/outage-oracle", params);
+    return this.executePaidRequest("/api/v1/tools/aerodrome-quote", params);
+  }
+
+  /** 31. Fast Deterministic Intelligence Oracle ($0.001 USDC) */
+  public async queryFastIntelligence(prompt: string, systemPrompt?: string): Promise<any> {
+    return this.executePaidRequest("/api/v1/tools/fast-intelligence", { prompt, systemPrompt });
   }
 }

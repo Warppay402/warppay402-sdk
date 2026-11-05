@@ -112,7 +112,7 @@ export function createWarpPayLangChainTools(client: WarpPayClient) {
     {
       name: "aerodrome_swap",
       description: "Executes low-slippage token swaps directly via Aerodrome Finance Router on Base. Costs $0.01 USDC.",
-      func: async (params: { tokenIn: string; tokenOut: string; amountIn: string; decimalsIn: number; isStable: boolean }) => {
+      func: async (params: { tokenIn: string; tokenOut: string; amountIn: string; decimalsIn: number; isStable: boolean; slippagePct?: number }) => {
         const result = await client.executeAerodromeSwap(params);
         return JSON.stringify(result);
       },
@@ -120,7 +120,7 @@ export function createWarpPayLangChainTools(client: WarpPayClient) {
     {
       name: "aerodrome_clamm",
       description: "Open, adjust, and rebalance concentrated liquidity ranges on Aerodrome Slipstream. Costs $0.01 USDC.",
-      func: async (params: { action: "mint" | "increaseLiquidity" | "decreaseLiquidity" | "collect"; token0?: string; token1?: string; tickLower?: number; tickUpper?: number; amount0Desired?: string; amount1Desired?: string; tokenId?: string }) => {
+      func: async (params: { action: "mint" | "increaseLiquidity" | "decreaseLiquidity" | "collect"; token0?: string; token1?: string; tickSpacing?: number; tickLower?: number; tickUpper?: number; amount0Desired?: string; amount1Desired?: string; tokenId?: string }) => {
         const result = await client.manageAerodromeClamm(params);
         return JSON.stringify(result);
       },
@@ -128,32 +128,32 @@ export function createWarpPayLangChainTools(client: WarpPayClient) {
     {
       name: "aerodrome_veaero",
       description: "Automates $AERO locking, epoch gauge voting, and bribe reward harvesting on Aerodrome. Costs $0.01 USDC.",
-      func: async (params: { action: "createLock" | "increaseAmount" | "increaseUnlockTime" | "vote" | "claimBribes"; amount?: string; lockDurationWeeks?: number; tokenId?: string; poolVoteAddresses?: string[] }) => {
+      func: async (params: { action: "createLock" | "increaseAmount" | "increaseUnlockTime" | "vote" | "claimBribes"; amount?: string; lockDurationWeeks?: number; tokenId?: string; poolVoteAddresses?: string[]; weights?: Array<number | string> }) => {
         const result = await client.manageAerodromeVeaero(params);
         return JSON.stringify(result);
       },
     },
     {
-      name: "deploy_contract",
-      description: "Programmatically deploys custom Escrow, Bounty, or Subscription contracts to Base Mainnet. Costs $5.00 USDC.",
-      func: async ({ contractType = "escrow" }: { contractType?: "escrow" | "bounty" | "subscription" | "pendle" }) => {
-        const result = await client.deployBaseContract(contractType);
+      name: "wallet_reputation_oracle",
+      description: "Audits target EVM or Solana address against blacklists, nonces, and sanction risk scores. Costs $0.01 USDC.",
+      func: async ({ address }: { address: string }) => {
+        const result = await client.getWalletReputation(address);
         return JSON.stringify(result);
       },
     },
     {
-      name: "deploy_solana_contract",
-      description: "Initializes SPL Escrows, cNFT Badge Issuers, or Raydium Vaults on Solana Mainnet. Costs $5.00 USDC.",
-      func: async ({ contractType, params }: { contractType: "spl_escrow" | "cnft_badge" | "raydium_vault"; params: Record<string, any> }) => {
-        const result = await client.deploySolanaContract(contractType, params);
+      name: "solana_token_risk_oracle",
+      description: "Inspects SPL token mint parameters: freeze authority, mint revocation, and supply metrics. Costs $0.005 USDC.",
+      func: async ({ mintAddress }: { mintAddress: string }) => {
+        const result = await client.getSolanaTokenRisk(mintAddress);
         return JSON.stringify(result);
       },
     },
     {
-      name: "deploy_arc_contract",
-      description: "Programmatically deploys custom Escrow, Bounty, or Agent contracts directly to Arc Mainnet. Costs $5.00 USDC.",
-      func: async ({ contractType = "escrow" }: { contractType?: "escrow" | "bounty" | "subscription" }) => {
-        const result = await client.deployArcContract(contractType);
+      name: "multi_chain_gas_oracle",
+      description: "Real-time EIP-1559 gas price and priority fee recommendations across Base, Arbitrum, Robinhood, and Arc. Costs $0.001 USDC.",
+      func: async () => {
+        const result = await client.getMultiChainGas();
         return JSON.stringify(result);
       },
     },
@@ -234,6 +234,22 @@ export function createWarpPayLangChainTools(client: WarpPayClient) {
       description: "Queries UCP merchant product catalogs, prices, and stock availability. Costs $0.001 USDC.",
       func: async (params: { query: string; maxPriceUSD?: number; inStockOnly?: boolean }) => {
         const result = await client.queryUcpDeals(params);
+        return JSON.stringify(result);
+      },
+    },
+    {
+      name: "aerodrome_quote_simulator",
+      description: "Simulate swap outputs, price impact, and minimum expected returns on Aerodrome Base without executing transactions. Costs $0.001 USDC.",
+      func: async (params: { tokenIn: string; tokenOut: string; amountIn: string; decimalsIn?: number; decimalsOut?: number; isStable?: boolean }) => {
+        const result = await client.getAerodromeQuote(params);
+        return JSON.stringify(result);
+      },
+    },
+    {
+      name: "fast_intelligence",
+      description: "Sub-second deterministic text classification, structured summarization, and task routing. Costs $0.001 USDC.",
+      func: async ({ prompt, systemPrompt }: { prompt: string; systemPrompt?: string }) => {
+        const result = await client.queryFastIntelligence(prompt, systemPrompt);
         return JSON.stringify(result);
       },
     },

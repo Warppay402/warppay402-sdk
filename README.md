@@ -60,31 +60,41 @@ main();
 - `executeAerodromeSwap({ tokenIn, tokenOut, amountIn, decimalsIn, isStable })` — $0.01 USDC — Low-slippage token swaps via Aerodrome Router on Base.
 - `manageAerodromeClamm(params)` — $0.01 USDC — Concentrated liquidity range management on Slipstream.
 - `manageAerodromeVeaero(params)` — $0.01 USDC — `$AERO` locking, epoch gauge voting, and bribe harvesting.
+- `getWalletReputation(address)` — $0.01 USDC — Audits target wallet address against sanctions and poisoning blacklists.
+- `getSolanaTokenRisk(mintAddress)` — $0.005 USDC — Solana SPL token security and freeze authority inspector.
+- `getMultiChainGas()` — $0.001 USDC — Multi-chain EIP-1559 real-time gas telemetry (Base, Arc, Arbitrum).
 - `verifySmartContract(address)` — $0.02 USDC — Base contract source code analysis and ABI verifier.
 - `getArcNetworkQuery(params?)` — $0.10 USDC — Pre-flight Arc network telemetry oracle query.
 - `bridgeArcCctp({ amountUsdc, destinationChain, recipientAddress })` — $0.25 USDC — Cross-chain USDC bridge engine via Circle CCTP V2.
-- `deployBaseContract(contractType)` — $5.00 USDC — Deploys an Escrow, Bounty, Subscription, or Pendle contract to Base.
-- `deploySolanaContract(contractType, params)` — $5.00 USDC — Initializes SPL Escrows, cNFTs, or Raydium Vaults on Solana.
-- `deployArcContract(contractType)` — $5.00 USDC — Deploys an Escrow, Bounty, or Subscription contract to Arc Mainnet.
 - `calculateRealEstate({ purchasePrice, monthlyRent, ... })` — $0.0005 USDC — Real estate NOI, cap rate, and DSCR deal calculator.
 - `getForexOracle(baseCurrency?)` — $0.0005 USDC — Foreign exchange fiat spot rates (EUR, GBP, JPY, CAD, AUD).
 - `queryUcpDeals({ query, maxPriceUSD?, inStockOnly? })` — $0.001 USDC — Universal Commerce Protocol merchant deals & catalog oracle.
 - `getOutageOracle({ zipCode, state?, serviceType? })` — $0.002 USDC — Real-time power grid, ISP, and cellular network outage oracle.
-
-`manageAerodromeClamm` accepts an action of `mint`, `increaseLiquidity`,
-`decreaseLiquidity`, or `collect`. `manageAerodromeVeaero` accepts an action
-of `createLock`, `increaseAmount`, `increaseUnlockTime`, `vote`, or
-`claimBribes`.
+- `getAerodromeQuote(params)` — $0.001 USDC — Read-only Aerodrome spot quote and price impact simulator.
+- `queryFastIntelligence(prompt, systemPrompt?)` — $0.001 USDC — Sub-second deterministic text classification and routing.
 
 ## 🛠️ LangChain Integration
 
-The repository includes a helper that returns three plain tool definitions:
-`web_scraper`, `base_analytics`, and `pdf_extractor`. The current published
-package exports only `WarpPayClient`, so the helper is not available from the
-`@warppay402/sdk` package root.
+The package exports a LangChain helper at the `@warppay402/sdk/langchain`
+subpath. It returns a collection of plain tool definitions for frameworks such as
+`web_scraper`, `base_analytics`, `pdf_extractor`, and the rest of the monetized
+tool catalog in `src/langchain.ts`.
 
-For custom builds that include `src/langchain.ts`, import the helper from that
-module and adapt its plain tool definitions to the framework you use.
+```ts
+import { WarpPayClient } from "@warppay402/sdk";
+import { createWarpPayLangChainTools } from "@warppay402/sdk/langchain";
+
+const client = new WarpPayClient({
+  privateKey: process.env.CUSTOMER_BASE_KEY as `0x${string}`,
+  solanaPrivateKey: process.env.CUSTOMER_SOLANA_KEY,
+});
+
+const tools = createWarpPayLangChainTools(client);
+```
+
+If you are building from a local checkout, you can still import the helper from
+`src/langchain.ts` and adapt the returned plain tool definitions to the framework
+you are using.
 
 ## 🌐 API Gateway & Specs
 
