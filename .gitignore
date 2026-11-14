@@ -72,3 +72,5 @@ Desktop.ini
 *.swo
 *.sublime-project
 *.sublime-workspace
+# OpenClaw local inspector reports
+reports/
