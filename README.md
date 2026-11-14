@@ -1,14 +1,16 @@
 # @warppay402/sdk
 
-Official TypeScript SDK for **WarpPay402**—pay-per-use AI tools monetized via x402 USDC micropayments on Base Mainnet, Solana SPL (USDC), Arbitrum One, and Arc Mainnet.
+Official TypeScript SDK for **WarpPay402**—pay-per-use AI tools and autonomous
+multi-step agents monetized via x402 USDC micropayments on Base Mainnet, Solana
+SPL (USDC), Arbitrum One, and Arc Mainnet.
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install @warppay402/sdk
 ```
 
-## 🚀 Quickstart
+## Quickstart
 
 ```typescript
 import { WarpPayClient } from "@warppay402/sdk";
@@ -27,19 +29,23 @@ async function main() {
   const yields = await client.getAerodromeYields();
   console.log("Top Yield Pools:", yields.topYieldPools);
 
-  // 3. Drone Flight Safety Weather Oracle ($0.001 USDC)
-  const weather = await client.getWeatherOracle(34.7465, -92.2896);
-  console.log("Flight Clearance:", weather.flightSafetyClearance);
+  // 3. Autonomous DeFi Due-Diligence & Quote Agent ($0.15 USDC)
+  const defi = await client.executeDefiAgent(
+    "Audit Base USDC and simulate a 10 USDC swap to AERO"
+  );
+  console.log("DeFi Agent Report:", defi.output);
 
-  // 4. Calculate Real Estate Cap Rate ($0.0005 USDC)
-  const re = await client.calculateRealEstate({ purchasePrice: 350000, monthlyRent: 2800 });
-  console.log("Cap Rate:", re.analysis.capRatePercent);
+  // 4. Parallel Web, UCP Deals & FX Research Agent ($0.05 USDC)
+  const research = await client.executeDeepResearchAgent(
+    "Find coffee deals under $25 and check current USD to EUR exchange rate"
+  );
+  console.log("Research Report:", research.output);
 }
 
 main();
 ```
 
-## 🛠️ Available Methods & Pricing
+## Available Methods & Pricing
 
 - `getPublicDataFeed(filename)` — $0.0001 USDC — Signed attestation JSON records.
 - `getDataFeed(feedId)` — $0.001 USDC — Cached intelligence reports (Base yields, trending pairs).
@@ -72,15 +78,18 @@ main();
 - `getOutageOracle({ zipCode, state?, serviceType? })` — $0.002 USDC — Real-time power grid, ISP, and cellular network outage oracle.
 - `getAerodromeQuote(params)` — $0.001 USDC — Read-only Aerodrome spot quote and price impact simulator.
 - `queryFastIntelligence(prompt, systemPrompt?)` — $0.001 USDC — Sub-second deterministic text classification and routing.
+- `executeDefiAgent(goal)` — $0.15 USDC — Autonomous DeFi due-diligence, yield discovery, and swap quote agent.
+- `executeDeepResearchAgent(goal)` — $0.05 USDC — Parallel web scraping, UCP merchant deals, and FX synthesis agent.
 
-## 🛠️ LangChain Integration
+## LangChain Integration
 
-The package exports a LangChain helper at the `@warppay402/sdk/langchain`
-subpath. It returns a collection of plain tool definitions for frameworks such as
-`web_scraper`, `base_analytics`, `pdf_extractor`, and the rest of the monetized
-tool catalog in `src/langchain.ts`.
+The package exports a LangChain helper from the `@warppay402/sdk/langchain`
+subpath. It returns plain tool definitions for frameworks, including
+`web_scraper`, `base_analytics`, `pdf_extractor`, `warppay_defi_executor`, and
+`warppay_deep_research`, along with the rest of the monetized tool catalog in
+[`src/langchain.ts`](./src/langchain.ts).
 
-```ts
+```typescript
 import { WarpPayClient } from "@warppay402/sdk";
 import { createWarpPayLangChainTools } from "@warppay402/sdk/langchain";
 
@@ -92,11 +101,7 @@ const client = new WarpPayClient({
 const tools = createWarpPayLangChainTools(client);
 ```
 
-If you are building from a local checkout, you can still import the helper from
-`src/langchain.ts` and adapt the returned plain tool definitions to the framework
-you are using.
-
-## 🌐 API Gateway & Specs
+## API Gateway & Specs
 
 - **MCP Gateway Endpoint:** <https://api.warppay402.com/mcp>
 - **MCP Manifest:** <https://api.warppay402.com/.well-known/mcp.json>

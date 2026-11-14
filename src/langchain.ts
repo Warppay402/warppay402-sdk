@@ -253,5 +253,21 @@ export function createWarpPayLangChainTools(client: WarpPayClient) {
         return JSON.stringify(result);
       },
     },
+    {
+      name: "warppay_defi_executor",
+      description: "Autonomous DeFi due-diligence and quote agent orchestrating wallet/contract audits, Aerodrome pool yields, and swap simulation from a single goal. Costs $0.15 USDC.",
+      func: async ({ goal }: { goal: string }) => {
+        const result = await client.executeDefiAgent(goal);
+        return JSON.stringify(result);
+      },
+    },
+    {
+      name: "warppay_deep_research",
+      description: "Parallel web scraping, UCP merchant catalog search, and forex spot rate synthesis agent from a single goal. Costs $0.05 USDC.",
+      func: async ({ goal }: { goal: string }) => {
+        const result = await client.executeDeepResearchAgent(goal);
+        return JSON.stringify(result);
+      },
+    },
   ];
 }

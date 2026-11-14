@@ -208,7 +208,7 @@ export class WarpPayClient {
     return (await response.json()) as T;
   }
 
-  // --- 31 ALL-INCLUSIVE MONETIZED TOOL METHODS ---
+  // --- 33 ALL-INCLUSIVE MONETIZED TOOL & AGENT METHODS ---
 
   /** 1. Public Attestation Data Feed ($0.0001 USDC) */
   public async getPublicDataFeed(filename: string): Promise<any> {
@@ -427,5 +427,15 @@ export class WarpPayClient {
   /** 31. Fast Deterministic Intelligence Oracle ($0.001 USDC) */
   public async queryFastIntelligence(prompt: string, systemPrompt?: string): Promise<any> {
     return this.executePaidRequest("/api/v1/tools/fast-intelligence", { prompt, systemPrompt });
+  }
+
+  /** 32. Autonomous DeFi Due-Diligence & Quote Agent ($0.15 USDC) */
+  public async executeDefiAgent(goal: string): Promise<any> {
+    return this.executePaidRequest("/api/v1/agents/defi-executor", { goal });
+  }
+
+  /** 33. Parallel Web Scraping, UCP Deals & FX Synthesis Agent ($0.05 USDC) */
+  public async executeDeepResearchAgent(goal: string): Promise<any> {
+    return this.executePaidRequest("/api/v1/agents/deep-research", { goal });
   }
 }
